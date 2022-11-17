@@ -1,7 +1,7 @@
 clear
 clear clc
 
-%导入数据
+%data
 load('D:\data\association.mat');
 load('D:\data\disease_GIP.mat');
 load('D:\data\disease_symptom.mat');
@@ -9,7 +9,7 @@ load('D:\data\disease_similarity_semantic_log_same.mat');
 load('D:\data\microbe_GIP.mat');
 load('D:\data\microbe_BLAST_MEGA7.mat');
 load('D:\data\mms_semantic_log_same.mat');
-%数据
+
 A=association;
 
 Wdd1=disease_similarity_semantic_log_same;
@@ -25,14 +25,15 @@ A_ori=A;
 
 auc = zeros(1,20);
 
-%two-tier BiRW
+%two-tier BiRW for similarity fusion
 L1=1;L2=4;alpha1=0.1;alpha2=0.8;
 [Rtm,Rtd]=similarity_BiRW(Wrr1,Wrr2,Wrr3,Wdd1,Wdd2,Wdd3,L1,L2,alpha1,alpha2);
 
-%WKNKN预测
+%WKNKN for association prediction
 K=10;r=0.9;
 F_1_ori=WKNKN( A,Rtm, Rtd,K,r); 
 
+%5-fold cross validation
 F_1_ori_ori=F_1_ori;
 index=find(A_ori==1);
 
