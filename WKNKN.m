@@ -1,9 +1,9 @@
 function [MD_mat_new] = WKNKN( MD_mat, MM_mat, DD_mat, K, r )
-%ÇóÔ­Ê¼¾ØÕóµÄĞĞ¸úÁĞ
+%æ±‚åŸå§‹çŸ©é˜µçš„è¡Œè·Ÿåˆ—
 [rows,cols]=size(MD_mat);
 y_m=zeros(rows,cols);  
 y_d=zeros(rows,cols);  
-%knnÍøÂçÑ¡ÔñlncrnaµÄk¸ö×î½üÁÚ¾Ó
+%knnç½‘ç»œé€‰æ‹©microbeçš„kä¸ªæœ€è¿‘é‚»å±…
 knn_network_m = KNN( MM_mat, K );  %for lncRNA
 for i = 1 : rows   
          w=zeros(1,K);
@@ -27,11 +27,11 @@ for i = 1 : cols
         end                      
             y_d(:,i)=y_d(:,i)/sum_d;               
 end
-%¶ÔÓ¦×ÅÎ±´úÂëµÄymd
+%å¯¹åº”ç€ä¼ªä»£ç çš„ymd
 a1=1;
 a2=1;
 y_md=(y_m*a1+y_d*a2)/(a1+a2);  
-%ÇóÆä×î´óÖµ£¬È¡´ú0£¬ÓÃlncºÍ¼²²¡µÄ½»»¥¿ÉÄÜĞÔÆ×µÄÆ½¾ùÖµ
+%æ±‚å…¶æœ€å¤§å€¼ï¼Œå–ä»£0ï¼Œç”¨microbeå’Œç–¾ç—…çš„äº¤äº’å¯èƒ½æ€§è°±çš„å¹³å‡å€¼
  for i = 1 : rows
      for j = 1 : cols
          MD_mat_new(i,j)=max(MD_mat(i,j),y_md(i,j));
@@ -45,7 +45,7 @@ function [ knn_network ] = KNN( network , k )
     [rows, cols] = size( network );
     network= network-diag(diag(network)); 
     knn_network = zeros(rows, cols);
-    [sort_network,idx]=sort(network,2,'descend');%ĞĞ½µĞòÅÅĞò
+    [sort_network,idx]=sort(network,2,'descend');%è¡Œé™åºæ’åº
     for i = 1 : rows
         knn_network(i,idx(i,1:k))=sort_network(i,1:k);
     end
